@@ -15,10 +15,10 @@ for(let i=0;i<100;i++){let a=ang(i*10),b=ang((i+1)*10);x.beginPath();x.arc(0,0,9
 for(let i=0;i<=20;i++){let a=ang(i*50),major=i%2===0;let [ax,ay]=point(major?95:104,a),[bx,by]=point(major?116:114,a);x.beginPath();x.moveTo(ax,ay);x.lineTo(bx,by);x.lineWidth=major?5:2.5;x.strokeStyle='#062338';x.stroke()}
 for(let i=0;i<=10;i++){let a=ang(i*100),[px,py]=point(79,a);txt(String(i),px,py,21,'#07273b',800)}
 // Branding and labels, based on supplied dial
-txt('THE POWER OF',0,-76,8,'#12405a',800);x.fillStyle='#a62c57';x.fillRect(-38,-66,76,19);txt('REDARC',0,-56,17,'#e9eff9',900);txt('EGT',-58,13,19,'#07283b',900);txt('X100',-58,29,14,'#07283b',800);
+txt('THE POWER OF',0,-70,7,'#12405a',800);x.fillStyle='#a62c57';x.fillRect(-31,-61,62,15);txt('REDARC',0,-53.5,13,'#e9eff9',900);txt('EGT',-58,13,19,'#07283b',900);txt('X100',-58,29,14,'#07283b',800);
 // digit area: EGT numeric readout in °C, preserving visual placement
 // Compact digital reading inside the lower dial, clear of the scale and centre hub
-const digital=String(Math.round(actual));txt(digital,0,91,31,'#063052',600,'monospace');txt('°C',53,94,11,'#063052',800);txt('EGT',0,113,9,'#063052',800);
+const digital=String(Math.round(actual));txt(digital,0,76,27,'#063052',600,'monospace');txt('°C',47,79,10,'#063052',800);txt('EGT',0,102,9,'#063052',800);
 // needle blue dark, drawn last, red warning pulse on pivot
 let a=ang(actual),[nx,ny]=point(105,a),[tx,ty]=point(22,a+Math.PI);x.beginPath();x.moveTo(tx,ty);x.lineTo(nx,ny);x.strokeStyle='#1278a6';x.lineWidth=4;x.lineCap='round';x.stroke();x.beginPath();x.arc(0,0,32,0,Math.PI*2);x.fillStyle='#1388bd';x.fill();x.beginPath();x.arc(0,0,21,0,Math.PI*2);x.fillStyle='#a7dfff';x.fill();if(actual>=800){x.beginPath();x.arc(0,0,122,0,Math.PI*2);x.strokeStyle=Math.floor(now/300)%2?'#e83b50':'#ffbdc8';x.lineWidth=4;x.stroke()}x.restore();requestAnimationFrame(draw)}requestAnimationFrame(draw);
 slider.addEventListener('input',()=>{auto=false;target=+slider.value;document.getElementById('auto').classList.remove('active')});function set(t){auto=false;target=t;document.getElementById('auto').classList.remove('active')}document.getElementById('auto').onclick=()=>{auto=!auto;document.getElementById('auto').classList.toggle('active',auto)};document.getElementById('idle').onclick=()=>set(220);document.getElementById('load').onclick=()=>set(680);document.getElementById('alarm').onclick=()=>set(900);
