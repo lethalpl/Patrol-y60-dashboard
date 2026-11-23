@@ -17,7 +17,8 @@ const lampAreas={
  beam:{x:933,y:161,w:72,h:56,color:'#1264ed'},
  oil:{x:1695,y:183,w:63,h:42,color:'#e61d20'},
  battery:{x:1784,y:114,w:58,h:39,color:'#e61d20'},
- brake:{x:1613,y:181,w:56,h:44,color:'#e61d20'}
+ brake:{x:1613,y:181,w:56,h:44,color:'#e61d20'},
+ glow:{x:299,y:176,w:60,h:44,color:'#e61d20'}
 };
 const lampSprites={};
 function prepareLampSprites(){
@@ -127,25 +128,13 @@ function rollingCounter(x,top,pitch,count,value,creamLast=false){
     drumDigit(x+i*pitch,top,pitch-3,35,pos,creamLast&&i===count-1);
   }
 }
-function glowPlugLamp(){
- if(preheat<=0)return;
- // Czerwona kontrolka świec żarowych obok napisu DIFF LOCK, na lewej części tarczy.
- // Współrzędne odpowiadają oryginalnej grafice 1983 × 793.
- const x=277,y=205;
- ctx.save();ctx.translate(x,y);
- ctx.strokeStyle='#ff222b';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
- ctx.shadowColor='#ff101a';ctx.shadowBlur=12;
- ctx.beginPath();ctx.moveTo(-19,0);ctx.lineTo(-14,0);
- for(let i=0;i<3;i++){const xx=-14+i*9;ctx.bezierCurveTo(xx+1,-12,xx+8,-12,xx+9,0)}
- ctx.lineTo(19,0);ctx.stroke();ctx.restore();
-}
 function draw(){
 ctx.clearRect(0,0,1983,793);
 // Podświetlenie najniżej w warstwie animacji, pod wskazówkami i ich osiami.
 const flash=Math.floor(blink*1.5)%2===0;
 lamp('left',lamps.left&&flash);lamp('right',lamps.right&&flash);
 lamp('beam',lamps.beam);lamp('oil',lamps.oil);
-lamp('battery',lamps.battery);lamp('brake',lamps.brake);glowPlugLamp();
+lamp('battery',lamps.battery);lamp('brake',lamps.brake);lamp('glow',preheat>0);
 for(const d of defs){needle(d,display[d.id]);$('value-'+d.id).textContent=(Number.isInteger(state[d.id])?state[d.id]:state[d.id].toFixed(1))+' '+d.unit;$('range-'+d.id).value=state[d.id]}
 drawHubs();
 rollingCounter(469,582,34,6,odometer);rollingCounter(743,582,42,4,trip*10,true);
