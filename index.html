@@ -129,13 +129,15 @@ function rollingCounter(x,top,pitch,count,value,creamLast=false){
 }
 function glowPlugLamp(){
  if(preheat<=0)return;
- // Bursztynowa spirala świec żarowych, widoczna wyłącznie podczas podgrzewania.
- const x=1082,y=174;
- ctx.save();ctx.translate(x,y);ctx.strokeStyle='#ffb32d';ctx.lineWidth=6;
- ctx.lineCap='round';ctx.lineJoin='round';ctx.shadowColor='#ff8b00';ctx.shadowBlur=17;
- ctx.beginPath();ctx.moveTo(-47,0);ctx.lineTo(-34,0);
- for(let i=0;i<4;i++){let xx=-34+i*17;ctx.bezierCurveTo(xx+2,-18,xx+15,-18,xx+17,0)}
- ctx.lineTo(47,0);ctx.stroke();ctx.restore();
+ // Czerwona kontrolka świec żarowych obok napisu DIFF LOCK, na lewej części tarczy.
+ // Współrzędne odpowiadają oryginalnej grafice 1983 × 793.
+ const x=277,y=205;
+ ctx.save();ctx.translate(x,y);
+ ctx.strokeStyle='#ff222b';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
+ ctx.shadowColor='#ff101a';ctx.shadowBlur=12;
+ ctx.beginPath();ctx.moveTo(-19,0);ctx.lineTo(-14,0);
+ for(let i=0;i<3;i++){const xx=-14+i*9;ctx.bezierCurveTo(xx+1,-12,xx+8,-12,xx+9,0)}
+ ctx.lineTo(19,0);ctx.stroke();ctx.restore();
 }
 function draw(){
 ctx.clearRect(0,0,1983,793);
