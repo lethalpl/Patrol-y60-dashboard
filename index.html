@@ -29,7 +29,13 @@ function prepareLampSprites(){
    const data=oc.getImageData(r.x,r.y,r.w,r.h);
    const out=oc.createImageData(r.w,r.h);
    const rgb=r.color.match(/[\da-f]{2}/gi).map(h=>parseInt(h,16));
-   if(key==='glow'){for(let i=0;i<data.data.length;i+=4){const lum=.2126*data.data[i]+.7152*data.data[i+1]+.0722*data.data[i+2];const a=Math.max(0,Math.min(1,(lum-105)/105));out.data[i]=255;out.data[i+1]=35;out.data[i+2]=38;out.data[i+3]=Math.round(255*a);}const sprite=document.createElement('canvas');sprite.width=r.w;sprite.height=r.h;sprite.getContext('2d').putImageData(out,0,0);lampSprites[key]=sprite;continue;}
+   if(key==='glow'){
+     // Podświetlamy jedynie czerwone pole POD fabrycznym symbolem.
+     // Sam piktogram pozostaje niezmieniony na warstwie fotografii tarczy.
+     const sprite=document.createElement('canvas');sprite.width=r.w;sprite.height=r.h;
+     const sc=sprite.getContext('2d');sc.fillStyle=r.color;sc.fillRect(0,0,r.w,r.h);
+     lampSprites[key]=sprite;continue;
+   }
    for(let y=0;y<r.h;y++)for(let x=0;x<r.w;x++){
      const i=(y*r.w+x)*4;
      const luminance=.2126*data.data[i]+.7152*data.data[i+1]+.0722*data.data[i+2];
@@ -96,7 +102,7 @@ function lamp(key,on){
  ctx.lineTo(r.x+r.w,r.y+r.h-rad);ctx.quadraticCurveTo(r.x+r.w,r.y+r.h,r.x+r.w-rad,r.y+r.h);
  ctx.lineTo(r.x+rad,r.y+r.h);ctx.quadraticCurveTo(r.x,r.y+r.h,r.x,r.y+r.h-rad);
  ctx.lineTo(r.x,r.y+rad);ctx.quadraticCurveTo(r.x,r.y,r.x+rad,r.y);ctx.closePath();ctx.clip();
- if(key==='glow'){ctx.shadowColor='#ff2424';ctx.shadowBlur=13;ctx.drawImage(sprite,r.x,r.y);ctx.shadowBlur=0;ctx.drawImage(sprite,r.x,r.y);}else{ctx.drawImage(sprite,r.x,r.y);}ctx.restore();
+ ctx.drawImage(sprite,r.x,r.y);ctx.restore();
 }
 // Bębny mechanicznego licznika: cyfry przesuwają się pionowo wewnątrz oryginalnych okien.
 // Bez nakładania cyfr na fabryczne cyfry w fotografii tarczy.
